@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Si Yo: Panen & Simpan - Taman Numerasi</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #fdfaf5; display: flex; flex-direction: column; align-items: center; padding: 10px; margin: 0; overflow: hidden; }
+        
+        /* Header & Logo Area */
+        #header-container { width: 100%; max-width: 1300px; display: flex; justify-content: center; margin-bottom: 5px; }
+        .logo-numerasi { height: 80px; width: auto; }
+
+        #title-container { 
+            display: flex; align-items: center; gap: 15px; margin-bottom: 10px; background: white; 
+            padding: 8px 25px; border-radius: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); width: 100%; max-width: 1100px;
+        }
+        .maskot { height: 60px; width: auto; }
+        .title-text { flex-grow: 1; text-align: center; }
+        h2 { margin: 0; color: #2d5a27; font-size: 1.4em; }
+        p.sub-title { margin: 2px 0 0; font-size: 0.85em; color: #7f8c8d; }
+
+        /* Main Layout */
+        #main-wrapper { display: flex; gap: 15px; width: 100%; max-width: 1400px; height: 78vh; align-items: stretch; }
+
+        /* --- SISI KIRI: STOK KERANJANG --- */
+        #sidebar-left { width: 260px; display: flex; flex-direction: column; gap: 10px; }
+        .card { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-top: 5px solid #4cc9f0; }
+        
+        #basket-stock {
+            background: #fff; border: 2px dashed #4cc9f0; border-radius: 10px; padding: 10px;
+            display: flex; flex-direction: column; align-items: center; gap: 10px; min-height: 200px;
+        }
+        .stock-basket-item {
+            width: 80px; height: 60px; background: #d7ccc8; border: 3px solid #8d6e63;
+            border-radius: 0 0 30px 30px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; color: #5d4037; transition: 0.3s;
+        }
+
+        /* --- TENGAH: AREA SIMULASI --- */
+        #sim-container { flex-grow: 1; position: relative; border: 4px solid #55a630; border-radius: 15px; overflow: hidden; background: #000; }
+        #orchard-bg { 
+            position: absolute; width: 100%; height: 100%; 
+            background-image: url('pohin jeruk 1.jfif'); background-size: cover; background-position: center; 
+            z-index: 1; filter: saturate(1.2);
+        }
+        #orange-container { position: absolute; width: 100%; height: 100%; z-index: 2; }
+        
+        /* Jeruk di Pohon */
+        .orange { 
+            position: absolute; width: 38px; height: 38px; background-image: url('jeruk 2.jfif'); 
+            background-size: contain; background-repeat: no-repeat; cursor: pointer; z-index: 10;
+        }
+
+        /* Keranjang Aktif (PENGISIAN VISUAL) */
+        #active-basket {
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            width: 110px; height: 85px; /* Sedikit diperbesar agar tumpukan terlihat bagus */
+            background: #8d6e63; border: 4px solid #5d4037;
+            border-radius: 0 0 40px 40px; z-index: 100; cursor: grab;
+            overflow: visible; /* Penting untuk tumpukan jeruk */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            display: flex; align-items: flex-end; justify-content: center;
+        }
+        #active-basket.full { border-color: #ff9f1c; box-shadow: 0 0 20px #ff9f1c; cursor: pointer; }
+
+        /* Tumpukan Jeruk di Dalam Keranjang */
+        #basket-orange-pile {
+            width: 100%; height: 100%; position: absolute; bottom: 10px; left: 0;
+            display: flex; flex-wrap: wrap-reverse; align-content: flex-start; justify-content: center;
+            padding: 5px; gap: 2px;
+        }
+        .pile-orange {
+            width: 20px; height: 20px; background-image: url('jeruk 2.jfif'); 
+            background-size: contain; background-repeat: no-repeat;
+            opacity: 0; animation: fadeInJeruk 0.3s ease-out forwards;
+        }
+        @keyframes fadeInJeruk { to { opacity: 1; } }
+
+        #basket-count { position: absolute; top: -25px; left: 50%; transform: translateX(-50%); background: #ff9f1c; color: white; padding: 2px 10px; border-radius: 10px; font-weight: bold; font-size: 0.8em;}
+
+        /* --- SISI KANAN: GUDANG --- */
+        #sidebar-right { width: 280px; display: flex; flex-direction: column; gap: 10px; }
+        #storage-area { 
+            flex-grow: 1; background: white; border-radius: 12px; padding: 15px; border: 3px solid #55a630;
+            display: flex; flex-direction: column;
+        }
+        #storage-grid { 
+            flex-grow: 1; border: 2px dashed #c5e1a5; border-radius: 8px; margin-top: 10px;
+            display: flex; flex-wrap: wrap; align-content: flex-start; gap: 8px; padding: 10px; overflow-y: auto;
+        }
+        .stored-basket { width: 50px; height: 40px; background: #ffecb3; border: 2px solid #ff9f1c; border-radius: 0 0 15px 15px; display: flex; align-items: center; justify-content: center; font-size: 0.7em; font-weight: bold; color: #e67e22; }
+
+        #numeracy-logic { background: #fff3e0; padding: 12px; border-radius: 8px; border-left: 5px solid #ff9f1c; }
+        #sum-text { font-weight: bold; color: #e67e22; font-size: 1.8em; text-align: center; display: block; margin-top: 5px;}
+
+        button { background: #e74c3c; color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        button:hover { background: #c0392b; }
+    </style>
+</head>
+<body>
+
+    <div id="header-container">
+        <img src="logo_taman_numerasi-removebg-preview (1).png" class="logo-numerasi">
+    </div>
+
+    <div id="title-container">
+        <img src="maskot_taman_numerasi3-removebg-preview (1).png" class="maskot">
+        <div class="title-text">
+            <h2>Si Yo: Panen & Simpan</h2>
+            <p class="sub-title">Geser keranjang ke bawah jeruk, lalu tarik keranjang penuh ke gudang!</p>
+        </div>
+    </div>
+
+    <div id="main-wrapper">
+        <div id="sidebar-left">
+            <div class="card">
+                <h3 style="margin:0 0 10px 0; font-size: 1em; color: #2d5a27; text-align: center;">Stok Keranjang Kosong</h3>
+                <div id="basket-stock">
+                    <div class="stock-basket-item" title="Ambil Keranjang Baru">KOSONG</div>
+                    <div class="stock-basket-item" style="opacity: 0.5;">...</div>
+                </div>
+            </div>
+            <button onclick="initGame()">Tanam Ulang Pohon</button>
+        </div>
+
+        <div id="sim-container">
+            <div id="orchard-bg"></div>
+            <div id="orange-container"></div>
+            
+            <div id="active-basket" draggable="true">
+                <div id="basket-orange-pile">
+                    </div>
+                <span id="basket-count">0 / 10</span>
+            </div>
+        </div>
+
+        <div id="sidebar-right">
+            <div id="storage-area">
+                <b style="color: #2d5a27;">🏠 Gudang Penyimpanan</b>
+                <div id="storage-grid">
+                    </div>
+                
+                <div id="numeracy-logic">
+                    Total Panen:<br>
+                    <span id="logic-text" style="font-size: 0.85em;">0 Keranjang x 10 Jeruk =</span>
+                    <span id="sum-text">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let maxCapacity = 10;
+        let currentInBasket = 0;
+        let storageCount = 0;
+        const basket = document.getElementById('active-basket');
+        const orangePile = document.getElementById('basket-orange-pile');
+        const simArea = document.getElementById('sim-container');
+        const storageGrid = document.getElementById('storage-grid');
+
+        function initGame() {
+            const container = document.getElementById('orange-container');
+            container.innerHTML = '';
+            orangePile.innerHTML = ''; // Reset tumpukan jeruk
+            currentInBasket = 0;
+            storageCount = 0;
+            updateUI();
+            
+            // Generate Jeruk di dahan (area atas dan tengah)
+            for (let i = 0; i < 100; i++) {
+                const orange = document.createElement('div');
+                orange.className = 'orange';
+                orange.style.left = (5 + Math.random() * 90) + '%';
+                orange.style.top = (10 + Math.random() * 60) + '%';
+                orange.onclick = function() { pickOrange(this); };
+                container.appendChild(orange);
+            }
+        }
+
+        function pickOrange(el) {
+            if (currentInBasket >= maxCapacity) {
+                alert("Keranjang penuh! Tarik ke gudang di sebelah kanan.");
+                return;
+            }
+
+            const orangeRect = el.getBoundingClientRect();
+            const basketRect = basket.getBoundingClientRect();
+
+            // Cek apakah keranjang berada di bawah jeruk (toleransi horizontal)
+            if (Math.abs((orangeRect.left + 19) - (basketRect.left + 55)) < 60) {
+                el.style.transition = "top 0.4s ease-in, opacity 0.3s";
+                el.style.top = "85%";
+                el.style.opacity = "0";
+                
+                setTimeout(() => {
+                    el.remove();
+                    addOrangeToPile(); // Tambahkan jeruk ke tumpukan visual di keranjang
+                    currentInBasket++;
+                    updateUI();
+                }, 400);
+            } else {
+                alert("Geser keranjang tepat ke bawah jeruk!");
+            }
+        }
+
+        function addOrangeToPile() {
+            // Membuat jeruk kecil untuk menumpuk di keranjang
+            const pOrange = document.createElement('div');
+            pOrange.className = 'pile-orange';
+            orangePile.appendChild(pOrange);
+        }
+
+        // Mekanisme Geser Keranjang (Horizontal di dasar pohon)
+        let isDragging = false;
+        basket.onmousedown = (e) => { isDragging = true; basket.style.transition = "none"; };
+        document.onmouseup = () => { isDragging = false; };
+        document.onmousemove = (e) => {
+            if (!isDragging) return;
+            let rect = simArea.getBoundingClientRect();
+            let x = e.clientX - rect.left - 55;
+            if (x < 10) x = 10;
+            if (x > rect.width - 110) x = rect.width - 110;
+            basket.style.left = x + "px";
+            basket.style.transform = "translateX(0)";
+        };
+
+        // Mekanisme Drag ke Gudang (HTML5 Drag & Drop)
+        basket.ondragstart = (e) => {
+            if (currentInBasket < maxCapacity) {
+                e.preventDefault();
+                return;
+            }
+            e.dataTransfer.setData("text", "basket_full");
+        };
+
+        storageGrid.ondragover = (e) => { e.preventDefault(); storageGrid.style.background = "#f1f8e9"; };
+        storageGrid.ondragleave = () => { storageGrid.style.background = "transparent"; };
+        storageGrid.ondrop = (e) => {
+            e.preventDefault();
+            storageGrid.style.background = "transparent";
+            if (e.dataTransfer.getData("text") === "basket_full") {
+                storageCount++;
+                currentInBasket = 0;
+                orangePile.innerHTML = ''; // Bersihkan tumpukan jeruk setelah disimpan
+                
+                const item = document.createElement('div');
+                item.className = 'stored-basket';
+                item.innerText = maxCapacity;
+                storageGrid.appendChild(item);
+                
+                basket.style.transition = "left 0.5s";
+                basket.style.left = "50%";
+                basket.style.transform = "translateX(-50%)";
+                updateUI();
+            }
+        };
+
+        function updateUI() {
+            document.getElementById('basket-count').innerText = `${currentInBasket} / ${maxCapacity}`;
+            basket.classList.toggle('full', currentInBasket === maxCapacity);
+            
+            const total = storageCount * maxCapacity;
+            document.getElementById('logic-text').innerText = `${storageCount} Keranjang x ${maxCapacity} Jeruk =`;
+            document.getElementById('sum-text').innerText = total;
+        }
+
+        initGame();
+    </script>
+</body>
+</html>
