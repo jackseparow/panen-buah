@@ -148,4 +148,114 @@
         const basket = document.getElementById('active-basket');
         const orangePile = document.getElementById('basket-orange-pile');
         const simArea = document.getElementById('sim-container');
-        const storageGrid = document
+        const storageGrid = document.getElementById('storage-grid');
+
+        function initGame() {
+            const container = document.getElementById('orange-container');
+            container.innerHTML = '';
+            orangePile.innerHTML = '';
+            currentInBasket = 0;
+            storageCount = 0;
+            updateUI();
+            
+            // RANDOM JUMLAH JERUK 90 - 300
+            let totalOranges = Math.floor(Math.random() * (300 - 90 + 1)) + 90;
+            
+            for (let i = 0; i < totalOranges; i++) {
+                const orange = document.createElement('div');
+                orange.className = 'orange';
+                
+                // SEBARAN BARU: Melebar ke samping (5-95%) dan lebih ke bawah (25-85%)
+                const xPos = 5 + (Math.random() * 90); 
+                const yPos = 25 + (Math.random() * 55); 
+                
+                orange.style.left = xPos + '%';
+                orange.style.top = yPos + '%';
+                orange.onclick = function() { pickOrange(this); };
+                container.appendChild(orange);
+            }
+        }
+
+        function pickOrange(el) {
+            if (currentInBasket >= maxCapacity) return;
+            
+            const oRect = el.getBoundingClientRect();
+            const bRect = basket.getBoundingClientRect();
+
+            // Deteksi jatuh ke keranjang (toleransi horizontal disesuaikan keranjang lebar)
+            if (Math.abs((oRect.left + 38) - (bRect.left + 90)) < 90) {
+                el.style.transition = "top 0.4s ease-in, opacity 0.3s";
+                el.style.top = "85%";
+                el.style.opacity = "0";
+                setTimeout(() => {
+                    el.remove();
+                    addOrangeToPile();
+                    currentInBasket++;
+                    updateUI();
+                }, 400);
+            }
+        }
+
+        function addOrangeToPile() {
+            const pOrange = document.createElement('div');
+            pOrange.className = 'pile-orange';
+            
+            // Logika penumpukan untuk jeruk besar (76px)
+            const bottomPos = Math.floor(currentInBasket / 4) * 20; 
+            const leftPos = 5 + (Math.random() * 85); 
+            const rotate = -15 + (Math.random() * 30); 
+
+            pOrange.style.bottom = bottomPos + 'px';
+            pOrange.style.left = leftPos + 'px';
+            pOrange.style.transform = `rotate(${rotate}deg)`;
+            orangePile.appendChild(pOrange);
+        }
+
+        let isDragging = false;
+        basket.onmousedown = (e) => { isDragging = true; basket.style.transition = "none"; };
+        document.onmouseup = () => { isDragging = false; };
+        document.onmousemove = (e) => {
+            if (!isDragging) return;
+            let rect = simArea.getBoundingClientRect();
+            let x = e.clientX - rect.left - 90;
+            if (x < 10) x = 10;
+            if (x > rect.width - 190) x = rect.width - 190;
+            basket.style.left = x + "px";
+            basket.style.transform = "translateX(0)";
+        };
+
+        basket.ondragstart = (e) => {
+            if (currentInBasket < maxCapacity) { e.preventDefault(); return; }
+            e.dataTransfer.setData("text", "full");
+        };
+
+        storageGrid.ondragover = (e) => e.preventDefault();
+        storageGrid.ondrop = (e) => {
+            e.preventDefault();
+            if (e.dataTransfer.getData("text") === "full") {
+                storageCount++;
+                currentInBasket = 0;
+                orangePile.innerHTML = '';
+                const item = document.createElement('div');
+                item.className = 'stored-basket';
+                item.innerText = maxCapacity;
+                storageGrid.appendChild(item);
+                basket.style.transition = "left 0.5s";
+                basket.style.left = "50%";
+                basket.style.transform = "translateX(-50%)";
+                updateUI();
+            }
+        };
+
+        function updateUI() {
+            document.getElementById('basket-count').innerText = `${currentInBasket} / ${maxCapacity}`;
+            basket.classList.toggle('full', currentInBasket === maxCapacity);
+            const total = storageCount * maxCapacity;
+            document.getElementById('logic-text').innerText = `${storageCount} Keranjang x ${maxCapacity} Jeruk =`;
+            document.getElementById('sum-text').innerText = total;
+        }
+
+        initGame();
+    </script>
+</body>
+</html>
