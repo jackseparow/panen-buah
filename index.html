@@ -180,17 +180,26 @@
             
             updateUI();
             
-            // RANDOM JUMLAH JERUK ANTARA 80 SD 140
             let totalOranges = Math.floor(Math.random() * (140 - 80 + 1)) + 80;
-            for (let i = 0; i < totalOranges; i++) {
+            let spawned = 0;
+
+            while(spawned < totalOranges) {
+                const xPos = 2 + (Math.random() * 92); 
+                const yPos = 18 + (Math.random() * 57); 
+
+                // LOGIKA REVISI: Hindari pojok kiri atas (area kotak counter) 
+                // Dan area kosong di bawah counter (biasanya x < 25 dan y < 45)
+                if (xPos < 25 && yPos < 45) {
+                    continue; // Skip dan cari posisi lain agar jeruk tidak melayang tanpa dahan
+                }
+
                 const orange = document.createElement('div');
                 orange.className = 'orange';
-                const xPos = 2 + (Math.random() * 90); 
-                const yPos = 20 + (Math.random() * 55); 
                 orange.style.left = xPos + '%';
                 orange.style.top = yPos + '%';
                 orange.onclick = function() { pickOrange(this); };
                 container.appendChild(orange);
+                spawned++;
             }
         }
 
