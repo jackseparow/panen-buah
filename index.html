@@ -90,8 +90,8 @@
         <div class="title-text">
             <h2>Si Yo: Panen & Simpan</h2>
             <div class="instruction-box">
-                Isi kotak perkalian sesuai jumlah keranjang di gudang dan isinya! <br>
-                <span class="highlight">Numerasi:</span> Bandingkan hasil hitunganmu dengan angka di pojok kebun.
+                Ayo petik buah dengan cara <span class="highlight">mengklik jeruk di pohon</span> dan arahkan keranjang di bawahnya! <br>
+                Isi kotak perkalian sesuai jumlah keranjang di gudang. Bandingkan hasil hitunganmu dengan angka di pojok kebun.
             </div>
         </div>
     </div>
@@ -104,7 +104,7 @@
                     <div class="stock-basket-item">KOSONG</div>
                 </div>
             </div>
-            <button onclick="initGame()">RESET KEBUAN</button>
+            <button onclick="initGame()">RESET KEBUN</button>
         </div>
 
         <div id="sim-container">
@@ -251,7 +251,7 @@
                 orangePile.innerHTML = '';
                 const item = document.createElement('div');
                 item.className = 'stored-basket';
-                item.innerText = '🧺' + maxCapacity;
+                item.innerText = '🧺10';
                 storageGrid.appendChild(item);
                 basket.style.transition = "left 0.5s";
                 basket.style.left = "50%";
