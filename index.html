@@ -27,10 +27,10 @@
         #main-wrapper { display: flex; gap: 15px; width: 100%; max-width: 1450px; height: 70vh; align-items: stretch; }
 
         /* --- SISI KIRI --- */
-        #sidebar-left { width: 240px; display: flex; flex-direction: column; gap: 10px; }
+        #sidebar-left { width: 220px; display: flex; flex-direction: column; gap: 10px; }
         .card { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-top: 5px solid #4cc9f0; }
         
-        #basket-stock { background: #f8fdff; border: 2px dashed #4cc9f0; border-radius: 10px; padding: 10px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        #basket-stock { background: #f8fdff; border: 2px dashed #4cc9f0; border-radius: 10px; padding: 10px; display: flex; flex-direction: column; align-items: center; }
         .stock-basket-item { width: 80px; height: 55px; background: #d7ccc8; border: 3px solid #8d6e63; border-radius: 0 0 30px 30px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #5d4037; font-size: 0.7em; }
 
         /* --- TENGAH: AREA SIMULASI --- */
@@ -50,21 +50,24 @@
         #basket-count { position: absolute; top: -45px; left: 50%; transform: translateX(-50%); background: #ff9f1c; color: white; padding: 5px 20px; border-radius: 15px; font-weight: bold; font-size: 1.2em; white-space: nowrap; box-shadow: 0 3px 6px rgba(0,0,0,0.2);}
 
         /* --- SISI KANAN: GUDANG & LOGIKA --- */
-        #sidebar-right { width: 350px; display: flex; flex-direction: column; gap: 10px; }
+        #sidebar-right { width: 420px; display: flex; flex-direction: column; gap: 10px; }
         #storage-area { flex-grow: 1; background: white; border-radius: 12px; padding: 15px; border: 3px solid #55a630; display: flex; flex-direction: column; }
-        #storage-grid { flex-grow: 1; border: 2px dashed #c5e1a5; border-radius: 8px; margin-top: 10px; display: flex; flex-wrap: wrap; align-content: flex-start; gap: 10px; padding: 10px; overflow-y: auto; min-height: 150px;}
-        .stored-basket { width: 60px; height: 45px; background: #ffecb3; border: 2px solid #ff9f1c; border-radius: 0 0 20px 20px; display: flex; align-items: center; justify-content: center; font-size: 0.8em; font-weight: bold; color: #e67e22; }
+        #storage-grid { flex-grow: 1; border: 2px dashed #c5e1a5; border-radius: 8px; margin-top: 5px; display: flex; flex-wrap: wrap; align-content: flex-start; gap: 10px; padding: 10px; overflow-y: auto; min-height: 120px;}
+        .stored-basket { width: 55px; height: 40px; background: #ffecb3; border: 2px solid #ff9f1c; border-radius: 0 0 18px 18px; display: flex; align-items: center; justify-content: center; font-size: 0.8em; font-weight: bold; color: #e67e22; }
 
-        /* Area Logika Interaktif */
+        /* Area Logika Horizontal */
         #numeracy-logic { background: #fff3e0; padding: 15px; border-radius: 12px; border: 2px solid #ff9f1c; margin-top: 10px; }
-        .logic-row { display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 1.1em; margin-bottom: 10px; }
-        .logic-input { width: 50px; padding: 8px; border: 2px solid #ff9f1c; border-radius: 8px; text-align: center; font-size: 1em; font-weight: bold; outline: none; }
-        .logic-input:focus { background: #fffde7; }
+        .logic-row-h { display: flex; align-items: center; justify-content: space-between; gap: 5px; }
+        .input-unit { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .input-label { font-size: 0.75em; color: #d35400; font-weight: bold; text-transform: uppercase; }
         
-        #user-result { color: #d35400; font-size: 1.4em; border-bottom: 2px dashed #d35400; padding: 0 5px; }
+        .logic-input { width: 60px; padding: 10px; border: 2px solid #ff9f1c; border-radius: 10px; text-align: center; font-size: 1.2em; font-weight: bold; outline: none; background: white; }
+        .operator { font-size: 1.5em; font-weight: bold; color: #2d5a27; margin-top: 15px; }
         
-        #actual-summary { margin-top: 10px; padding-top: 10px; border-top: 1px solid #ffcc80; font-size: 0.9em; color: #2d5a27; }
-        #sum-actual { font-weight: bold; color: #55a630; font-size: 1.8em; display: block; margin-top: 5px; text-align: center; }
+        #user-result { min-width: 60px; text-align: center; color: #e67e22; font-size: 2em; font-weight: bold; margin-top: 15px; border-bottom: 3px solid #e67e22; }
+        
+        #actual-summary { margin-top: 15px; padding-top: 10px; border-top: 1px dashed #ffcc80; font-size: 0.9em; color: #2d5a27; display: flex; justify-content: space-between; align-items: center; }
+        #sum-actual { font-weight: bold; color: #55a630; font-size: 2em; }
 
         button { background: #e74c3c; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; font-size: 1.1em; }
         button:hover { background: #c0392b; transform: scale(1.02); }
@@ -81,8 +84,8 @@
         <div class="title-text">
             <h2>Si Yo: Panen & Simpan</h2>
             <div class="instruction-box">
-                Hitung keranjang di gudang, lalu isi bilangan perkaliannya! <br>
-                <span class="highlight">Gunakan logikamu:</span> (Jumlah Keranjang x Isi per Keranjang) = Hasilmu.
+                Isi angka sesuai jumlah keranjang di gudang dan isinya! <br>
+                <span class="highlight">Logika:</span> Coba kalikan angka pilihanmu, apakah hasilnya sama dengan jeruk yang kamu petik?
             </div>
         </div>
     </div>
@@ -90,7 +93,7 @@
     <div id="main-wrapper">
         <div id="sidebar-left">
             <div class="card">
-                <h3 style="margin:0 0 10px 0; font-size: 0.9em; color: #2d5a27; text-align: center;">Stok Keranjang</h3>
+                <h3 style="margin:0 0 10px 0; font-size: 0.8em; color: #2d5a27; text-align: center;">STOK KERANJANG</h3>
                 <div id="basket-stock">
                     <div class="stock-basket-item">KOSONG</div>
                 </div>
@@ -113,18 +116,26 @@
                 <div id="storage-grid"></div>
                 
                 <div id="numeracy-logic">
-                    <div class="logic-row">
-                        <input type="number" id="in-basket" class="logic-input" placeholder="?" oninput="calculateUser()"> 
-                        <span>keranjang x</span>
-                    </div>
-                    <div class="logic-row">
-                        <input type="number" id="in-capacity" class="logic-input" placeholder="?" oninput="calculateUser()"> 
-                        <span>jeruk =</span>
+                    <div class="logic-row-h">
+                        <div class="input-unit">
+                            <input type="number" id="in-basket" class="logic-input" oninput="calculateUser()">
+                            <span class="input-label">Keranjang</span>
+                        </div>
+                        
+                        <span class="operator">×</span>
+                        
+                        <div class="input-unit">
+                            <input type="number" id="in-capacity" class="logic-input" oninput="calculateUser()">
+                            <span class="input-label">Jeruk</span>
+                        </div>
+                        
+                        <span class="operator">=</span>
+                        
                         <span id="user-result">0</span>
                     </div>
 
                     <div id="actual-summary">
-                        Total Jeruk yang Berhasil Dipanen:
+                        <span>Jeruk yang dipetik:</span>
                         <span id="sum-actual">0</span>
                     </div>
                 </div>
@@ -151,7 +162,6 @@
             storageCount = 0;
             totalHarvestedActual = 0;
             
-            // Reset Inputs
             document.getElementById('in-basket').value = '';
             document.getElementById('in-capacity').value = '';
             document.getElementById('user-result').innerText = '0';
@@ -163,7 +173,7 @@
                 const orange = document.createElement('div');
                 orange.className = 'orange';
                 const xPos = 2 + (Math.random() * 90); 
-                const yPos = 18 + (Math.random() * 55); 
+                const yPos = 20 + (Math.random() * 55); 
                 orange.style.left = xPos + '%';
                 orange.style.top = yPos + '%';
                 orange.addEventListener('click', function() { pickOrange(this); });
@@ -184,7 +194,7 @@
                     el.remove();
                     addOrangeToPile();
                     currentInBasket++;
-                    totalHarvestedActual++; // Counter real-time bertambah
+                    totalHarvestedActual++;
                     updateUI();
                 }, 400);
             }
@@ -209,7 +219,6 @@
             document.getElementById('user-result').innerText = res;
         }
 
-        // Drag Keranjang Horizontal
         let isDragging = false;
         basket.onmousedown = (e) => { isDragging = true; basket.style.transition = "none"; };
         document.onmouseup = () => { isDragging = false; };
