@@ -38,7 +38,7 @@
         #orchard-bg { position: absolute; width: 100%; height: 100%; background-image: url('orange-tree.png'); background-size: cover; background-position: center; z-index: 1; }
         #orange-container { position: absolute; width: 100%; height: 100%; z-index: 10; pointer-events: none; }
         
-        /* Jeruk dikecilkan ke 58px (77% dari 76px) */
+        /* Ukuran Jeruk 58px */
         .orange { 
             position: absolute; width: 58px; height: 58px; background-image: url('orange-fruit.png'); 
             background-size: contain; background-repeat: no-repeat; cursor: pointer; z-index: 20; pointer-events: auto; 
@@ -57,8 +57,6 @@
         #active-basket.full { border-color: #ff9f1c; box-shadow: 0 0 30px #ff9f1c; cursor: pointer; }
 
         #basket-orange-pile { width: 100%; height: 90%; position: absolute; bottom: 15px; left: 0; pointer-events: none; }
-        
-        /* Jeruk tumpukan mengikuti ukuran baru */
         .pile-orange { 
             position: absolute; width: 58px; height: 58px; background-image: url('orange-fruit.png'); 
             background-size: contain; background-repeat: no-repeat; opacity: 0; animation: fadeInJeruk 0.3s ease-out forwards; 
@@ -182,7 +180,8 @@
             
             updateUI();
             
-            let totalOranges = Math.floor(Math.random() * (200 - 50 + 1)) + 50;
+            // RANDOM JUMLAH JERUK ANTARA 80 SD 140
+            let totalOranges = Math.floor(Math.random() * (140 - 80 + 1)) + 80;
             for (let i = 0; i < totalOranges; i++) {
                 const orange = document.createElement('div');
                 orange.className = 'orange';
@@ -200,7 +199,6 @@
             const oRect = el.getBoundingClientRect();
             const bRect = basket.getBoundingClientRect();
 
-            // Deteksi tabrakan disesuaikan dengan ukuran jeruk baru (58px)
             if (Math.abs((oRect.left + 29) - (bRect.left + 100)) < 90) {
                 el.style.transition = "top 0.4s ease-in, opacity 0.3s";
                 el.style.top = "80%";
@@ -218,7 +216,6 @@
         function addOrangeToPile() {
             const pOrange = document.createElement('div');
             pOrange.className = 'pile-orange';
-            // Penumpukan natural disesuaikan ukuran 58px
             const bottomPos = Math.floor(currentInBasket / 3) * 18; 
             const leftPos = 10 + (Math.random() * 80); 
             const rotate = -15 + (Math.random() * 30); 
