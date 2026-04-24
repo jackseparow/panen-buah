@@ -6,15 +6,15 @@
     <style>
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #fdfaf5; display: flex; flex-direction: column; align-items: center; padding: 10px; margin: 0; overflow: hidden; }
         
-        /* --- 1. Header & Logo Area --- */
+        /* --- Header & Logo --- */
         #header-container { width: 100%; max-width: 1300px; display: flex; justify-content: center; margin-bottom: 0; }
         .logo-numerasi { height: 100px; width: auto; }
 
-        /* --- 2. Judul & Maskot --- */
+        /* --- Judul & Maskot (Rapat & Besar) --- */
         #title-container { 
             display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 15px; 
             background: white; padding: 10px 40px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
-            width: auto; min-width: 600px;
+            width: auto; min-width: 550px;
         }
         .maskot { height: 110px; width: auto; margin-right: -10px; }
         .title-text { display: flex; flex-direction: column; text-align: left; }
@@ -24,21 +24,21 @@
         /* Main Layout */
         #main-wrapper { display: flex; gap: 15px; width: 100%; max-width: 1450px; height: 75vh; align-items: stretch; }
 
-        /* --- SISI KIRI: STOK KERANJANG --- */
-        #sidebar-left { width: 260px; display: flex; flex-direction: column; gap: 10px; }
+        /* Sisi Kiri: Stok */
+        #sidebar-left { width: 240px; display: flex; flex-direction: column; gap: 10px; }
         .card { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-top: 5px solid #4cc9f0; }
         
         #basket-stock {
             background: #fff; border: 2px dashed #4cc9f0; border-radius: 10px; padding: 10px;
-            display: flex; flex-direction: column; align-items: center; gap: 10px; min-height: 220px;
+            display: flex; flex-direction: column; align-items: center; gap: 10px; min-height: 180px;
         }
         .stock-basket-item {
-            width: 90px; height: 65px; background: #d7ccc8; border: 3px solid #8d6e63;
-            border-radius: 0 0 35px 35px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-            font-weight: bold; color: #5d4037; transition: 0.3s; font-size: 0.8em;
+            width: 70px; height: 50px; background: #d7ccc8; border: 3px solid #8d6e63;
+            border-radius: 0 0 25px 25px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; color: #5d4037; font-size: 0.7em;
         }
 
-        /* --- TENGAH: AREA SIMULASI --- */
+        /* Tengah: Area Simulasi */
         #sim-container { flex-grow: 1; position: relative; border: 4px solid #55a630; border-radius: 15px; overflow: hidden; background: #87ceeb; }
         #orchard-bg { 
             position: absolute; width: 100%; height: 100%; 
@@ -52,17 +52,18 @@
             background-size: contain; background-repeat: no-repeat; cursor: pointer; z-index: 10;
         }
 
-        /* Keranjang Aktif (Kapasitas 50) */
+        /* Keranjang Aktif (Ukuran Diperkecil agar 10 buah tampak penuh) */
         #active-basket {
             position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-            width: 150px; height: 100px; background: #8d6e63; border: 4px solid #5d4037;
-            border-radius: 0 0 55px 55px; z-index: 100; cursor: grab;
+            width: 110px; height: 75px; background: #8d6e63; border: 4px solid #5d4037;
+            border-radius: 0 0 40px 40px; z-index: 100; cursor: grab;
             box-shadow: 0 10px 20px rgba(0,0,0,0.3); overflow: visible;
         }
         #active-basket.full { border-color: #ff9f1c; box-shadow: 0 0 25px #ff9f1c; cursor: pointer; }
 
-        #basket-orange-pile { width: 100%; height: 85%; position: absolute; bottom: 12px; left: 0; pointer-events: none; }
+        #basket-orange-pile { width: 100%; height: 85%; position: absolute; bottom: 8px; left: 0; pointer-events: none; }
         
+        /* Ukuran jeruk tumpukan tetap 38px */
         .pile-orange {
             position: absolute; width: 38px; height: 38px; background-image: url('orange-fruit.png'); 
             background-size: contain; background-repeat: no-repeat;
@@ -72,7 +73,7 @@
         
         #basket-count { position: absolute; top: -35px; left: 50%; transform: translateX(-50%); background: #ff9f1c; color: white; padding: 4px 15px; border-radius: 12px; font-weight: bold; font-size: 1em; white-space: nowrap; box-shadow: 0 2px 5px rgba(0,0,0,0.2);}
 
-        /* --- SISI KANAN: GUDANG --- */
+        /* Sisi Kanan: Gudang */
         #sidebar-right { width: 280px; display: flex; flex-direction: column; gap: 10px; }
         #storage-area { 
             flex-grow: 1; background: white; border-radius: 12px; padding: 15px; border: 3px solid #55a630;
@@ -82,7 +83,7 @@
             flex-grow: 1; border: 2px dashed #c5e1a5; border-radius: 8px; margin-top: 10px;
             display: flex; flex-wrap: wrap; align-content: flex-start; gap: 8px; padding: 10px; overflow-y: auto;
         }
-        .stored-basket { width: 55px; height: 45px; background: #ffecb3; border: 2px solid #ff9f1c; border-radius: 0 0 18px 18px; display: flex; align-items: center; justify-content: center; font-size: 0.8em; font-weight: bold; color: #e67e22; }
+        .stored-basket { width: 50px; height: 40px; background: #ffecb3; border: 2px solid #ff9f1c; border-radius: 0 0 15px 15px; display: flex; align-items: center; justify-content: center; font-size: 0.7em; font-weight: bold; color: #e67e22; }
 
         #numeracy-logic { background: #fff3e0; padding: 12px; border-radius: 8px; border-left: 5px solid #ff9f1c; }
         #sum-text { font-weight: bold; color: #e67e22; font-size: 2em; text-align: center; display: block; margin-top: 5px;}
@@ -108,10 +109,10 @@
     <div id="main-wrapper">
         <div id="sidebar-left">
             <div class="card">
-                <h3 style="margin:0 0 10px 0; font-size: 1em; color: #2d5a27; text-align: center;">Stok Keranjang</h3>
+                <h3 style="margin:0 0 10px 0; font-size: 0.9em; color: #2d5a27; text-align: center;">Stok Keranjang</h3>
                 <div id="basket-stock">
                     <div class="stock-basket-item">KOSONG</div>
-                    <div class="stock-basket-item" style="opacity:0.3"></div>
+                    <div class="stock-basket-item" style="opacity:0.2"></div>
                 </div>
             </div>
             <button onclick="initGame()">RESET KEBUAN</button>
@@ -122,7 +123,7 @@
             <div id="orange-container"></div>
             <div id="active-basket" draggable="true">
                 <div id="basket-orange-pile"></div>
-                <span id="basket-count">0 / 50</span>
+                <span id="basket-count">0 / 10</span>
             </div>
         </div>
 
@@ -132,7 +133,7 @@
                 <div id="storage-grid"></div>
                 <div id="numeracy-logic">
                     Total Panen:<br>
-                    <span id="logic-text" style="font-size: 0.9em;">0 Keranjang x 50 Jeruk =</span>
+                    <span id="logic-text" style="font-size: 0.9em;">0 Keranjang x 10 Jeruk =</span>
                     <span id="sum-text">0</span>
                 </div>
             </div>
@@ -140,7 +141,7 @@
     </div>
 
     <script>
-        let maxCapacity = 50;
+        let maxCapacity = 10;
         let currentInBasket = 0;
         let storageCount = 0;
         const basket = document.getElementById('active-basket');
@@ -156,13 +157,12 @@
             storageCount = 0;
             updateUI();
             
-            // RANDOM JUMLAH JERUK ANTARA 150 - 600
-            let totalOranges = Math.floor(Math.random() * (600 - 150 + 1)) + 150;
+            // RANDOM JUMLAH JERUK 90 - 300
+            let totalOranges = Math.floor(Math.random() * (300 - 90 + 1)) + 90;
             
             for (let i = 0; i < totalOranges; i++) {
                 const orange = document.createElement('div');
                 orange.className = 'orange';
-                // Penempatan di kanopi pohon
                 const xPos = 18 + (Math.random() * 64); 
                 const yPos = 12 + (Math.random() * 55); 
                 orange.style.left = xPos + '%';
@@ -179,7 +179,7 @@
             const bRect = basket.getBoundingClientRect();
 
             // Cek posisi keranjang
-            if (Math.abs((oRect.left + 19) - (bRect.left + 75)) < 80) {
+            if (Math.abs((oRect.left + 19) - (bRect.left + 55)) < 65) {
                 el.style.transition = "top 0.4s ease-in, opacity 0.3s";
                 el.style.top = "85%";
                 el.style.opacity = "0";
@@ -196,10 +196,10 @@
             const pOrange = document.createElement('div');
             pOrange.className = 'pile-orange';
             
-            // Logika penumpukan agar muat 50 buah (lebih rapat)
-            const bottomPos = Math.floor(currentInBasket / 7) * 8; 
-            const leftPos = 10 + (Math.random() * 75); 
-            const rotate = -30 + (Math.random() * 60); 
+            // Logika penumpukan agar 10 buah tampak penuh di keranjang kecil
+            const bottomPos = Math.floor(currentInBasket / 4) * 15; 
+            const leftPos = 5 + (Math.random() * 60); 
+            const rotate = -20 + (Math.random() * 40); 
 
             pOrange.style.bottom = bottomPos + 'px';
             pOrange.style.left = leftPos + 'px';
@@ -213,9 +213,9 @@
         document.onmousemove = (e) => {
             if (!isDragging) return;
             let rect = simArea.getBoundingClientRect();
-            let x = e.clientX - rect.left - 75;
+            let x = e.clientX - rect.left - 55;
             if (x < 10) x = 10;
-            if (x > rect.width - 160) x = rect.width - 160;
+            if (x > rect.width - 120) x = rect.width - 120;
             basket.style.left = x + "px";
             basket.style.transform = "translateX(0)";
         };
