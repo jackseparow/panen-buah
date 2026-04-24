@@ -6,22 +6,23 @@
     <style>
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #fdfaf5; display: flex; flex-direction: column; align-items: center; padding: 10px; margin: 0; overflow: hidden; }
         
-        /* Header Area */
-        #header-container { width: 100%; max-width: 1300px; display: flex; justify-content: center; margin-bottom: 5px; }
-        .logo-numerasi { height: 80px; width: auto; }
+        /* --- 1. Header & Logo Area --- */
+        #header-container { width: 100%; max-width: 1300px; display: flex; justify-content: center; margin-bottom: 0; }
+        .logo-numerasi { height: 100px; width: auto; }
 
-        /* Area Judul (Tempat Maskot Si Yo) */
+        /* --- 2. Judul & Maskot (Diperbesar & Dirapatkan) --- */
         #title-container { 
-            display: flex; align-items: center; gap: 15px; margin-bottom: 10px; background: white; 
-            padding: 8px 25px; border-radius: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); width: 100%; max-width: 1100px;
+            display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 15px; 
+            background: white; padding: 10px 40px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
+            width: auto; min-width: 600px;
         }
-        .maskot { height: 75px; width: auto; }
-        .title-text { flex-grow: 1; text-align: center; }
-        h2 { margin: 0; color: #2d5a27; font-size: 1.5em; }
-        p.sub-title { margin: 2px 0 0; font-size: 0.85em; color: #7f8c8d; }
+        .maskot { height: 110px; width: auto; margin-right: -10px; } /* Maskot lebih besar & rapat ke teks */
+        .title-text { display: flex; flex-direction: column; text-align: left; }
+        h2 { margin: 0; color: #2d5a27; font-size: 2.2em; line-height: 1; }
+        p.sub-title { margin: 5px 0 0; font-size: 1em; color: #7f8c8d; font-weight: 500; }
 
         /* Main Layout */
-        #main-wrapper { display: flex; gap: 15px; width: 100%; max-width: 1400px; height: 78vh; align-items: stretch; }
+        #main-wrapper { display: flex; gap: 15px; width: 100%; max-width: 1450px; height: 75vh; align-items: stretch; }
 
         /* --- SISI KIRI: STOK KERANJANG --- */
         #sidebar-left { width: 260px; display: flex; flex-direction: column; gap: 10px; }
@@ -29,12 +30,12 @@
         
         #basket-stock {
             background: #fff; border: 2px dashed #4cc9f0; border-radius: 10px; padding: 10px;
-            display: flex; flex-direction: column; align-items: center; gap: 10px; min-height: 200px;
+            display: flex; flex-direction: column; align-items: center; gap: 10px; min-height: 220px;
         }
         .stock-basket-item {
-            width: 80px; height: 60px; background: #d7ccc8; border: 3px solid #8d6e63;
-            border-radius: 0 0 30px 30px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-            font-weight: bold; color: #5d4037; transition: 0.3s;
+            width: 90px; height: 65px; background: #d7ccc8; border: 3px solid #8d6e63;
+            border-radius: 0 0 35px 35px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; color: #5d4037; transition: 0.3s; font-size: 0.8em;
         }
 
         /* --- TENGAH: AREA SIMULASI (orange-tree.png) --- */
@@ -46,32 +47,32 @@
         }
         #orange-container { position: absolute; width: 100%; height: 100%; z-index: 2; }
         
-        /* Jeruk menggunakan orange-fruit.png */
+        /* Jeruk Konsisten 38px */
         .orange { 
-            position: absolute; width: 35px; height: 35px; background-image: url('orange-fruit.png'); 
+            position: absolute; width: 38px; height: 38px; background-image: url('orange-fruit.png'); 
             background-size: contain; background-repeat: no-repeat; cursor: pointer; z-index: 10;
         }
 
         /* Keranjang Aktif */
         #active-basket {
             position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-            width: 120px; height: 85px; background: #8d6e63; border: 4px solid #5d4037;
-            border-radius: 0 0 45px 45px; z-index: 100; cursor: grab;
+            width: 140px; height: 95px; background: #8d6e63; border: 4px solid #5d4037;
+            border-radius: 0 0 50px 50px; z-index: 100; cursor: grab;
             box-shadow: 0 10px 20px rgba(0,0,0,0.3); overflow: visible;
         }
-        #active-basket.full { border-color: #ff9f1c; box-shadow: 0 0 20px #ff9f1c; cursor: pointer; }
+        #active-basket.full { border-color: #ff9f1c; box-shadow: 0 0 25px #ff9f1c; cursor: pointer; }
 
-        #basket-orange-pile { width: 100%; height: 75%; position: absolute; bottom: 10px; left: 0; pointer-events: none; }
+        #basket-orange-pile { width: 100%; height: 80%; position: absolute; bottom: 12px; left: 0; pointer-events: none; }
         
-        /* Tumpukan Jeruk dalam keranjang juga menggunakan orange-fruit.png */
+        /* Jeruk di keranjang besarnya sama dengan di pohon (38px) */
         .pile-orange {
-            position: absolute; width: 28px; height: 28px; background-image: url('orange-fruit.png'); 
+            position: absolute; width: 38px; height: 38px; background-image: url('orange-fruit.png'); 
             background-size: contain; background-repeat: no-repeat;
             opacity: 0; animation: fadeInJeruk 0.3s ease-out forwards;
         }
         @keyframes fadeInJeruk { to { opacity: 1; } }
         
-        #basket-count { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); background: #ff9f1c; color: white; padding: 2px 12px; border-radius: 10px; font-weight: bold; font-size: 0.9em; white-space: nowrap;}
+        #basket-count { position: absolute; top: -35px; left: 50%; transform: translateX(-50%); background: #ff9f1c; color: white; padding: 4px 15px; border-radius: 12px; font-weight: bold; font-size: 1em; white-space: nowrap; box-shadow: 0 2px 5px rgba(0,0,0,0.2);}
 
         /* --- SISI KANAN: GUDANG --- */
         #sidebar-right { width: 280px; display: flex; flex-direction: column; gap: 10px; }
@@ -83,13 +84,13 @@
             flex-grow: 1; border: 2px dashed #c5e1a5; border-radius: 8px; margin-top: 10px;
             display: flex; flex-wrap: wrap; align-content: flex-start; gap: 8px; padding: 10px; overflow-y: auto;
         }
-        .stored-basket { width: 50px; height: 40px; background: #ffecb3; border: 2px solid #ff9f1c; border-radius: 0 0 15px 15px; display: flex; align-items: center; justify-content: center; font-size: 0.7em; font-weight: bold; color: #e67e22; }
+        .stored-basket { width: 55px; height: 45px; background: #ffecb3; border: 2px solid #ff9f1c; border-radius: 0 0 18px 18px; display: flex; align-items: center; justify-content: center; font-size: 0.8em; font-weight: bold; color: #e67e22; }
 
         #numeracy-logic { background: #fff3e0; padding: 12px; border-radius: 8px; border-left: 5px solid #ff9f1c; }
-        #sum-text { font-weight: bold; color: #e67e22; font-size: 1.8em; text-align: center; display: block; margin-top: 5px;}
+        #sum-text { font-weight: bold; color: #e67e22; font-size: 2em; text-align: center; display: block; margin-top: 5px;}
 
-        button { background: #e74c3c; color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        button:hover { background: #c0392b; }
+        button { background: #e74c3c; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; font-size: 1em; }
+        button:hover { background: #c0392b; transform: scale(1.02); }
     </style>
 </head>
 <body>
@@ -102,7 +103,7 @@
         <img src="maskot-siyo.png" class="maskot">
         <div class="title-text">
             <h2>Si Yo: Panen & Simpan</h2>
-            <p class="sub-title">Geser keranjang ke bawah jeruk, lalu simpan ke gudang!</p>
+            <p class="sub-title">Geser keranjang ke bawah jeruk untuk memanen!</p>
         </div>
     </div>
 
@@ -112,9 +113,10 @@
                 <h3 style="margin:0 0 10px 0; font-size: 1em; color: #2d5a27; text-align: center;">Stok Keranjang</h3>
                 <div id="basket-stock">
                     <div class="stock-basket-item">KOSONG</div>
+                    <div class="stock-basket-item" style="opacity:0.3"></div>
                 </div>
             </div>
-            <button onclick="initGame()">Tanam Ulang Pohon</button>
+            <button onclick="initGame()">RESET KEBUAN</button>
         </div>
 
         <div id="sim-container">
@@ -132,7 +134,7 @@
                 <div id="storage-grid"></div>
                 <div id="numeracy-logic">
                     Total Panen:<br>
-                    <span id="logic-text" style="font-size: 0.85em;">0 Keranjang penuh x 10 Jeruk =</span>
+                    <span id="logic-text" style="font-size: 0.9em;">0 Keranjang x 10 Jeruk =</span>
                     <span id="sum-text">0</span>
                 </div>
             </div>
@@ -156,10 +158,13 @@
             storageCount = 0;
             updateUI();
             
-            // Generate 150 Jeruk di dahan menggunakan orange-fruit.png
-            for (let i = 0; i < 150; i++) {
+            // RANDOM JUMLAH JERUK ANTARA 90 - 300
+            let totalOranges = Math.floor(Math.random() * (300 - 90 + 1)) + 90;
+            
+            for (let i = 0; i < totalOranges; i++) {
                 const orange = document.createElement('div');
                 orange.className = 'orange';
+                // Penempatan natural di kanopi pohon
                 const xPos = 18 + (Math.random() * 64); 
                 const yPos = 12 + (Math.random() * 55); 
                 orange.style.left = xPos + '%';
@@ -170,14 +175,13 @@
         }
 
         function pickOrange(el) {
-            if (currentInBasket >= maxCapacity) {
-                alert("Keranjang penuh! Simpan ke gudang.");
-                return;
-            }
+            if (currentInBasket >= maxCapacity) return;
+            
             const oRect = el.getBoundingClientRect();
             const bRect = basket.getBoundingClientRect();
 
-            if (Math.abs((oRect.left + 17) - (bRect.left + 60)) < 70) {
+            // Cek posisi keranjang tepat di bawah jeruk
+            if (Math.abs((oRect.left + 19) - (bRect.left + 70)) < 70) {
                 el.style.transition = "top 0.4s ease-in, opacity 0.3s";
                 el.style.top = "85%";
                 el.style.opacity = "0";
@@ -187,32 +191,34 @@
                     currentInBasket++;
                     updateUI();
                 }, 400);
-            } else {
-                alert("Geser keranjang ke bawah jeruk!");
             }
         }
 
         function addOrangeToPile() {
             const pOrange = document.createElement('div');
             pOrange.className = 'pile-orange';
-            const bottomPos = Math.floor(currentInBasket / 4) * 16; 
-            const leftPos = 15 + (Math.random() * 55); 
-            const rotate = -25 + (Math.random() * 50); 
+            
+            // Besarnya tetap 38px, tapi posisi diacak agar natural di keranjang
+            const bottomPos = Math.floor(currentInBasket / 4) * 12; 
+            const leftPos = 10 + (Math.random() * 65); 
+            const rotate = -20 + (Math.random() * 40); 
+
             pOrange.style.bottom = bottomPos + 'px';
             pOrange.style.left = leftPos + 'px';
             pOrange.style.transform = `rotate(${rotate}deg)`;
             orangePile.appendChild(pOrange);
         }
 
+        // --- Drag Keranjang ---
         let isDragging = false;
         basket.onmousedown = (e) => { isDragging = true; basket.style.transition = "none"; };
         document.onmouseup = () => { isDragging = false; };
         document.onmousemove = (e) => {
             if (!isDragging) return;
             let rect = simArea.getBoundingClientRect();
-            let x = e.clientX - rect.left - 60;
+            let x = e.clientX - rect.left - 70;
             if (x < 10) x = 10;
-            if (x > rect.width - 130) x = rect.width - 130;
+            if (x > rect.width - 150) x = rect.width - 150;
             basket.style.left = x + "px";
             basket.style.transform = "translateX(0)";
         };
