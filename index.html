@@ -24,7 +24,7 @@
         .highlight { color: #e67e22; font-weight: bold; }
 
         /* Main Layout */
-        #main-wrapper { display: flex; gap: 15px; width: 100%; max-width: 1450px; height: 70vh; align-items: stretch; }
+        #main-wrapper { display: flex; gap: 15px; width: 100%; max-width: 1450px; height: 72vh; align-items: stretch; }
 
         /* --- SISI KIRI --- */
         #sidebar-left { width: 220px; display: flex; flex-direction: column; gap: 10px; }
@@ -40,6 +40,15 @@
         
         .orange { position: absolute; width: 76px; height: 76px; background-image: url('orange-fruit.png'); background-size: contain; background-repeat: no-repeat; cursor: pointer; z-index: 20; pointer-events: auto; }
 
+        /* Real-Time Counter di DALAM Canvas */
+        #canvas-counter { 
+            position: absolute; top: 20px; left: 20px; background: rgba(255, 255, 255, 0.85); 
+            padding: 10px 20px; border-radius: 15px; border: 3px solid #55a630; 
+            z-index: 100; font-weight: bold; color: #2d5a27; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        #sum-actual { font-size: 2.5em; color: #e67e22; display: block; line-height: 1; }
+
         #active-basket { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: 200px; height: 130px; background: #8d6e63; border: 5px solid #5d4037; border-radius: 0 0 80px 80px; z-index: 100; cursor: grab; box-shadow: 0 10px 25px rgba(0,0,0,0.3); overflow: visible; }
         #active-basket.full { border-color: #ff9f1c; box-shadow: 0 0 30px #ff9f1c; cursor: pointer; }
 
@@ -47,7 +56,7 @@
         .pile-orange { position: absolute; width: 76px; height: 76px; background-image: url('orange-fruit.png'); background-size: contain; background-repeat: no-repeat; opacity: 0; animation: fadeInJeruk 0.3s ease-out forwards; }
         @keyframes fadeInJeruk { to { opacity: 1; } }
         
-        #basket-count { position: absolute; top: -45px; left: 50%; transform: translateX(-50%); background: #ff9f1c; color: white; padding: 5px 20px; border-radius: 15px; font-weight: bold; font-size: 1.2em; white-space: nowrap; box-shadow: 0 3px 6px rgba(0,0,0,0.2);}
+        #basket-count { position: absolute; top: -45px; left: 50%; transform: translateX(-50%); background: #ff9f1c; color: white; padding: 5px 20px; border-radius: 10px; font-weight: bold; font-size: 1.2em; white-space: nowrap; box-shadow: 0 3px 6px rgba(0,0,0,0.2);}
 
         /* --- SISI KANAN: GUDANG & LOGIKA --- */
         #sidebar-right { width: 420px; display: flex; flex-direction: column; gap: 10px; }
@@ -61,13 +70,10 @@
         .input-unit { display: flex; flex-direction: column; align-items: center; gap: 4px; }
         .input-label { font-size: 0.75em; color: #d35400; font-weight: bold; text-transform: uppercase; }
         
-        .logic-input { width: 60px; padding: 10px; border: 2px solid #ff9f1c; border-radius: 10px; text-align: center; font-size: 1.2em; font-weight: bold; outline: none; background: white; }
+        .logic-input { width: 65px; padding: 10px; border: 2px solid #ff9f1c; border-radius: 10px; text-align: center; font-size: 1.2em; font-weight: bold; outline: none; background: white; }
         .operator { font-size: 1.5em; font-weight: bold; color: #2d5a27; margin-top: 15px; }
         
-        #user-result { min-width: 60px; text-align: center; color: #e67e22; font-size: 2em; font-weight: bold; margin-top: 15px; border-bottom: 3px solid #e67e22; }
-        
-        #actual-summary { margin-top: 15px; padding-top: 10px; border-top: 1px dashed #ffcc80; font-size: 0.9em; color: #2d5a27; display: flex; justify-content: space-between; align-items: center; }
-        #sum-actual { font-weight: bold; color: #55a630; font-size: 2em; }
+        #user-result { min-width: 70px; text-align: center; color: #e67e22; font-size: 2.2em; font-weight: bold; margin-top: 15px; border-bottom: 3px solid #e67e22; }
 
         button { background: #e74c3c; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; font-size: 1.1em; }
         button:hover { background: #c0392b; transform: scale(1.02); }
@@ -84,8 +90,8 @@
         <div class="title-text">
             <h2>Si Yo: Panen & Simpan</h2>
             <div class="instruction-box">
-                Isi angka sesuai jumlah keranjang di gudang dan isinya! <br>
-                <span class="highlight">Logika:</span> Coba kalikan angka pilihanmu, apakah hasilnya sama dengan jeruk yang kamu petik?
+                Isi kotak perkalian sesuai jumlah keranjang di gudang dan isinya! <br>
+                <span class="highlight">Numerasi:</span> Bandingkan hasil hitunganmu dengan angka di pojok kebun.
             </div>
         </div>
     </div>
@@ -102,6 +108,11 @@
         </div>
 
         <div id="sim-container">
+            <div id="canvas-counter">
+                JERUK DIPETIK
+                <span id="sum-actual">0</span>
+            </div>
+
             <div id="orchard-bg"></div>
             <div id="orange-container"></div>
             <div id="active-basket" draggable="true">
@@ -132,11 +143,6 @@
                         <span class="operator">=</span>
                         
                         <span id="user-result">0</span>
-                    </div>
-
-                    <div id="actual-summary">
-                        <span>Jeruk yang dipetik:</span>
-                        <span id="sum-actual">0</span>
                     </div>
                 </div>
             </div>
@@ -176,7 +182,7 @@
                 const yPos = 20 + (Math.random() * 55); 
                 orange.style.left = xPos + '%';
                 orange.style.top = yPos + '%';
-                orange.addEventListener('click', function() { pickOrange(this); });
+                orange.onclick = function() { pickOrange(this); };
                 container.appendChild(orange);
             }
         }
