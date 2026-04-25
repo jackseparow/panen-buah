@@ -9,6 +9,7 @@
             --primary-green: #2d5a27;
             --accent-orange: #e67e22;
             --soft-yellow: #fff3e0;
+            --sky-blue: #87ceeb;
         }
 
         body { 
@@ -42,18 +43,23 @@
         /* Main Layout */
         #main-wrapper { 
             display: flex; flex-direction: row; gap: 15px; width: 95%; max-width: 1200px; 
-            height: 75vh; min-height: 500px;
+            height: 70vh; min-height: 500px;
         }
 
-        /* --- SISI KIRI --- */
-        #sidebar-left { width: 180px; display: flex; flex-direction: column; gap: 10px; }
-        .card { background: white; padding: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-top: 5px solid #4cc9f0; }
-        #basket-stock { background: #f8fdff; border: 2px dashed #4cc9f0; border-radius: 10px; padding: 10px; text-align: center; }
+        /* --- SISI KIRI: COUNTER --- */
+        #sidebar-left { width: 160px; display: flex; flex-direction: column; gap: 10px; }
+        .counter-card { 
+            background: white; padding: 15px; border-radius: 12px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-top: 5px solid var(--accent-orange);
+            text-align: center;
+        }
+        .counter-label { font-size: 0.75em; font-weight: bold; color: var(--primary-green); margin-bottom: 5px; }
+        #sum-actual { font-size: 2.5em; color: var(--accent-orange); font-weight: bold; display: block; line-height: 1; }
 
         /* --- TENGAH: AREA SIMULASI --- */
         #sim-container { 
             flex-grow: 1; position: relative; border: 4px solid #55a630; border-radius: 15px; 
-            overflow: hidden; background: #87ceeb; touch-action: none;
+            overflow: hidden; background: var(--sky-blue); touch-action: none;
         }
         #orchard-bg { position: absolute; width: 100%; height: 100%; background-image: url('orange-tree.png'); background-size: cover; background-position: center; z-index: 1; }
         #orange-container { position: absolute; width: 100%; height: 100%; z-index: 10; pointer-events: none; }
@@ -63,12 +69,15 @@
             background-size: contain; background-repeat: no-repeat; cursor: pointer; z-index: 20; pointer-events: auto; 
         }
 
-        #canvas-counter { 
-            position: absolute; top: 10px; left: 10px; background: rgba(255, 255, 255, 0.9); 
-            padding: 5px 15px; border-radius: 12px; border: 2px solid #55a630; 
-            z-index: 100; font-weight: bold; color: var(--primary-green); font-size: 0.8em; text-align: center;
+        /* Reset Button di dalam Kanvas (Posisi Counter Lama) */
+        #btn-reset-canvas { 
+            position: absolute; top: 15px; left: 15px; z-index: 100;
+            background: #e74c3c; color: white; border: 2px solid white; 
+            padding: 8px 15px; border-radius: 10px; cursor: pointer; 
+            font-weight: bold; font-size: 0.85em; box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
         }
-        #sum-actual { font-size: 1.8em; color: var(--accent-orange); display: block; }
+        #btn-reset-canvas:hover { background: #c0392b; transform: scale(1.05); }
 
         #active-basket { 
             position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); 
@@ -87,30 +96,30 @@
         #basket-count { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); background: #ff9f1c; color: white; padding: 2px 10px; border-radius: 8px; font-weight: bold; font-size: 0.9em; white-space: nowrap; }
 
         /* --- SISI KANAN: GUDANG --- */
-        #sidebar-right { width: 280px; display: flex; flex-direction: column; gap: 10px; }
-        #storage-area { flex-grow: 1; background: white; border-radius: 12px; padding: 12px; border: 3px solid #55a630; display: flex; flex-direction: column; }
-        #storage-grid { flex-grow: 1; border: 2px dashed #c5e1a5; border-radius: 8px; margin-top: 5px; display: flex; flex-wrap: wrap; align-content: flex-start; gap: 8px; padding: 8px; overflow-y: auto; max-height: 200px;}
+        #sidebar-right { width: 320px; display: flex; flex-direction: column; gap: 10px; }
+        #storage-area { flex-grow: 1; background: white; border-radius: 12px; padding: 15px; border: 3px solid #55a630; display: flex; flex-direction: column; }
+        #storage-grid { flex-grow: 1; border: 2px dashed #c5e1a5; border-radius: 8px; margin-top: 5px; display: flex; flex-wrap: wrap; align-content: flex-start; gap: 8px; padding: 8px; overflow-y: auto; max-height: 180px;}
         .stored-basket { width: 45px; height: 35px; background: #ffecb3; border: 2px solid #ff9f1c; border-radius: 0 0 15px 15px; display: flex; align-items: center; justify-content: center; font-size: 0.7em; font-weight: bold; color: #e67e22; }
 
-        #numeracy-logic { background: var(--soft-yellow); padding: 12px; border-radius: 12px; border: 2px solid #ff9f1c; }
-        .logic-row-h { display: flex; align-items: center; justify-content: space-around; }
-        .logic-input { width: 50px; padding: 8px; border: 2px solid #ff9f1c; border-radius: 8px; text-align: center; font-size: 1.1em; font-weight: bold; }
-        .operator { font-size: 1.2em; font-weight: bold; color: var(--primary-green); }
-        #user-result { font-size: 1.8em; color: var(--accent-orange); font-weight: bold; border-bottom: 3px solid var(--accent-orange); min-width: 40px; text-align: center; }
+        /* Numeracy Logic Box */
+        #numeracy-logic { background: var(--soft-yellow); padding: 15px; border-radius: 12px; border: 2px solid #ff9f1c; margin-top: 10px; position: relative; }
+        .total-label { display: block; text-align: center; font-weight: bold; color: var(--primary-green); font-size: 0.85em; margin-bottom: 10px; text-transform: uppercase; }
+        
+        .logic-row-h { display: flex; align-items: center; justify-content: space-between; gap: 5px; }
+        .input-group { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        .input-group label { font-size: 0.7em; font-weight: bold; color: #d35400; text-transform: uppercase; }
+        
+        .logic-input { width: 60px; padding: 10px; border: 2px solid #ff9f1c; border-radius: 10px; text-align: center; font-size: 1.2em; font-weight: bold; outline: none; }
+        .operator { font-size: 1.5em; font-weight: bold; color: var(--primary-green); margin-top: 15px; }
+        #user-result { font-size: 2em; color: var(--accent-orange); font-weight: bold; border-bottom: 3px solid var(--accent-orange); min-width: 60px; text-align: center; margin-top: 15px; }
 
-        button { background: #e74c3c; color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1em; width: 100%; }
-
-        /* --- RESPONSIVE MOBILE --- */
+        /* --- RESPONSIVE --- */
         @media (max-width: 850px) {
             #main-wrapper { flex-direction: column; height: auto; }
-            #sidebar-left, #sidebar-right { width: 100%; flex-direction: row; flex-wrap: wrap; }
-            #sidebar-left .card, #sidebar-left button { flex: 1; min-width: 140px; }
-            #sim-container { height: 350px; width: 100%; order: -1; }
+            #sidebar-left, #sidebar-right { width: 100%; flex-direction: row; }
+            #sidebar-left .counter-card { flex: 1; }
+            #sim-container { height: 400px; order: -1; }
             #sidebar-right { order: 2; }
-            #storage-area { width: 100%; }
-            #title-container { padding: 10px; }
-            .maskot { height: 60px; }
-            h2 { font-size: 1.2em; }
         }
     </style>
 </head>
@@ -125,158 +134,5 @@
         <div class="title-text">
             <h2>Si Yo: Panen & Simpan</h2>
             <div class="instruction-box">
-                Petik <span class="highlight">Jeruk</span> ke keranjang! Jika penuh (10), <span class="highlight">pindahkan ke Gudang</span> (klik keranjang jika di HP).
-            </div>
-        </div>
-    </div>
-
-    <div id="main-wrapper">
-        <div id="sidebar-left">
-            <div class="card">
-                <h3 style="margin:0 0 5px 0; font-size: 0.7em; color: var(--primary-green); text-align: center;">STOK</h3>
-                <div id="basket-stock">
-                    <div style="font-size: 0.7em; color: #8d6e63;">🧺 READY</div>
-                </div>
-            </div>
-            <button onclick="initGame()">RESET</button>
-        </div>
-
-        <div id="sim-container">
-            <div id="canvas-counter">JERUK DIPETIK<span id="sum-actual">0</span></div>
-            <div id="orchard-bg"></div>
-            <div id="orange-container"></div>
-            <div id="active-basket">
-                <div id="basket-orange-pile"></div>
-                <span id="basket-count">0 / 10</span>
-            </div>
-        </div>
-
-        <div id="sidebar-right">
-            <div id="storage-area">
-                <b style="color: var(--primary-green); font-size: 0.9em;">🏠 Gudang</b>
-                <div id="storage-grid"></div>
-                
-                <div id="numeracy-logic">
-                    <div class="logic-row-h">
-                        <input type="number" id="in-basket" class="logic-input" placeholder="?" oninput="calculateUser()">
-                        <span class="operator">×</span>
-                        <input type="number" id="in-capacity" class="logic-input" placeholder="?" oninput="calculateUser()">
-                        <span class="operator">=</span>
-                        <span id="user-result">0</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        let maxCapacity = 10;
-        let currentInBasket = 0;
-        let storageCount = 0;
-        let totalHarvestedActual = 0;
-
-        const basket = document.getElementById('active-basket');
-        const orangePile = document.getElementById('basket-orange-pile');
-        const simArea = document.getElementById('sim-container');
-        const storageGrid = document.getElementById('storage-grid');
-
-        function initGame() {
-            const container = document.getElementById('orange-container');
-            container.innerHTML = '';
-            orangePile.innerHTML = '';
-            currentInBasket = 0;
-            storageCount = 0;
-            totalHarvestedActual = 0;
-            storageGrid.innerHTML = '';
-            document.getElementById('in-basket').value = '';
-            document.getElementById('in-capacity').value = '';
-            document.getElementById('user-result').innerText = '0';
-            updateUI();
-            
-            let totalOranges = 40; // Dikurangi agar tidak lag di HP
-            for(let i=0; i<totalOranges; i++) {
-                const orange = document.createElement('div');
-                orange.className = 'orange';
-                orange.style.left = (5 + Math.random() * 85) + '%';
-                orange.style.top = (15 + Math.random() * 60) + '%';
-                orange.onclick = function(e) { e.stopPropagation(); pickOrange(this); };
-                container.appendChild(orange);
-            }
-        }
-
-        function pickOrange(el) {
-            if (currentInBasket >= maxCapacity) return;
-            const oRect = el.getBoundingClientRect();
-            const bRect = basket.getBoundingClientRect();
-
-            // Toleransi klik lebih luas agar mudah di HP
-            if (Math.abs((oRect.left + 22) - (bRect.left + 55)) < 60) {
-                el.style.transition = "top 0.4s ease-in, opacity 0.3s";
-                el.style.top = "85%";
-                el.style.opacity = "0";
-                setTimeout(() => {
-                    el.remove();
-                    addOrangeToPile();
-                    currentInBasket++;
-                    totalHarvestedActual++;
-                    updateUI();
-                }, 400);
-            }
-        }
-
-        function addOrangeToPile() {
-            const pOrange = document.createElement('div');
-            pOrange.className = 'pile-orange';
-            pOrange.style.bottom = (Math.floor(currentInBasket / 3) * 12) + 'px';
-            pOrange.style.left = (10 + (Math.random() * 40)) + 'px';
-            orangePile.appendChild(pOrange);
-        }
-
-        // --- Logika Geser Keranjang (Mouse & Touch) ---
-        function moveBasket(clientX) {
-            let rect = simArea.getBoundingClientRect();
-            let x = clientX - rect.left - (basket.offsetWidth / 2);
-            if (x < 5) x = 5;
-            if (x > rect.width - basket.offsetWidth - 5) x = rect.width - basket.offsetWidth - 5;
-            basket.style.left = x + "px";
-            basket.style.transform = "none";
-        }
-
-        simArea.addEventListener('mousemove', (e) => { if(e.buttons === 1) moveBasket(e.clientX); });
-        simArea.addEventListener('touchmove', (e) => { 
-            e.preventDefault(); 
-            moveBasket(e.touches[0].clientX); 
-        }, {passive: false});
-
-        // Klik keranjang untuk simpan ke gudang (Memudahkan user HP)
-        basket.onclick = () => {
-            if (currentInBasket === maxCapacity) {
-                storageCount++;
-                const item = document.createElement('div');
-                item.className = 'stored-basket';
-                item.innerText = '🧺10';
-                storageGrid.appendChild(item);
-                currentInBasket = 0;
-                orangePile.innerHTML = '';
-                basket.style.left = "50%";
-                basket.style.transform = "translateX(-50%)";
-                updateUI();
-            }
-        };
-
-        function calculateUser() {
-            const b = parseInt(document.getElementById('in-basket').value) || 0;
-            const c = parseInt(document.getElementById('in-capacity').value) || 0;
-            document.getElementById('user-result').innerText = b * c;
-        }
-
-        function updateUI() {
-            document.getElementById('basket-count').innerText = `${currentInBasket} / ${maxCapacity}`;
-            basket.classList.toggle('full', currentInBasket === maxCapacity);
-            document.getElementById('sum-actual').innerText = totalHarvestedActual;
-        }
-
-        initGame();
-    </script>
-</body>
-</html>
+                Arahkan keranjang, petik <span class="highlight">Jeruk</span> sampai 10, lalu simpan ke gudang! <br>
+                Buktikan kemampuan
