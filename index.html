@@ -10,6 +10,7 @@
             --accent-orange: #e67e22;
             --soft-yellow: #fff3e0;
             --sky-blue: #87ceeb;
+            --trunk-brown: #5d4037;
         }
 
         body { 
@@ -21,105 +22,90 @@
             padding: 10px; 
             margin: 0; 
             min-height: 100vh;
-            overflow-x: hidden;
         }
         
-        /* --- 1. Header & Logo --- */
-        #header-container { width: 100%; max-width: 1200px; display: flex; justify-content: center; margin-bottom: 5px; }
-        .logo-numerasi { height: 60px; width: auto; }
+        #header-container { width: 100%; max-width: 1200px; text-align: center; margin-bottom: 5px; }
+        .logo-numerasi { height: 60px; width: auto; background: #eee; border-radius: 5px; }
 
-        /* --- 2. Kotak Judul --- */
         #title-container { 
             display: flex; align-items: center; gap: 15px; margin-bottom: 15px; 
             background: white; padding: 15px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
             width: 95%; max-width: 1200px; box-sizing: border-box;
         }
-        .maskot { height: 80px; width: auto; }
+        .maskot { height: 70px; width: auto; background: #fafafa; border-radius: 50%; }
         .title-text { flex: 1; }
-        h2 { margin: 0; color: var(--primary-green); font-size: 1.5em; }
+        h2 { margin: 0; color: var(--primary-green); font-size: 1.4em; }
         .instruction-box { margin-top: 5px; color: #555; font-size: 0.85em; border-left: 4px solid #ff9f1c; padding-left: 10px; }
-        .highlight { color: var(--accent-orange); font-weight: bold; }
 
-        /* Main Layout */
+        /* Main Layout - Menggunakan Min-Height agar tidak hilang */
         #main-wrapper { 
             display: flex; flex-direction: row; gap: 15px; width: 95%; max-width: 1200px; 
-            height: 70vh; min-height: 500px;
+            min-height: 500px; height: 70vh;
         }
 
-        /* --- SISI KIRI: COUNTER --- */
-        #sidebar-left { width: 160px; display: flex; flex-direction: column; gap: 10px; }
+        /* --- SISI KIRI --- */
+        #sidebar-left { width: 180px; display: flex; flex-direction: column; gap: 10px; }
         .counter-card { 
             background: white; padding: 15px; border-radius: 12px; 
             box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-top: 5px solid var(--accent-orange);
             text-align: center;
         }
-        .counter-label { font-size: 0.75em; font-weight: bold; color: var(--primary-green); margin-bottom: 5px; }
-        #sum-actual { font-size: 2.5em; color: var(--accent-orange); font-weight: bold; display: block; line-height: 1; }
+        #sum-actual { font-size: 2.5em; color: var(--accent-orange); font-weight: bold; display: block; }
 
-        /* --- TENGAH: AREA SIMULASI --- */
+        /* --- TENGAH: KANVAS --- */
         #sim-container { 
-            flex-grow: 1; position: relative; border: 4px solid #55a630; border-radius: 15px; 
-            overflow: hidden; background: var(--sky-blue); touch-action: none;
+            flex-grow: 2; position: relative; border: 4px solid #55a630; border-radius: 15px; 
+            background: var(--sky-blue); overflow: hidden; touch-action: none;
         }
-        #orchard-bg { position: absolute; width: 100%; height: 100%; background-image: url('orange-tree.png'); background-size: cover; background-position: center; z-index: 1; }
+        /* Fallback jika gambar pohon tidak ada */
+        #orchard-bg { 
+            position: absolute; width: 100%; height: 100%; 
+            background: url('orange-tree.png') center/cover no-repeat, #87ceeb; 
+            z-index: 1; 
+        }
         #orange-container { position: absolute; width: 100%; height: 100%; z-index: 10; pointer-events: none; }
         
+        /* Fallback jika gambar jeruk tidak ada */
         .orange { 
-            position: absolute; width: 45px; height: 45px; background-image: url('orange-fruit.png'); 
-            background-size: contain; background-repeat: no-repeat; cursor: pointer; z-index: 20; pointer-events: auto; 
+            position: absolute; width: 40px; height: 40px; 
+            background: url('orange-fruit.png') center/contain no-repeat, orange;
+            border-radius: 50%; cursor: pointer; z-index: 20; pointer-events: auto; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
-        /* Reset Button di dalam Kanvas (Posisi Counter Lama) */
         #btn-reset-canvas { 
             position: absolute; top: 15px; left: 15px; z-index: 100;
             background: #e74c3c; color: white; border: 2px solid white; 
-            padding: 8px 15px; border-radius: 10px; cursor: pointer; 
-            font-weight: bold; font-size: 0.85em; box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            transition: transform 0.2s;
+            padding: 8px 12px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 0.8em;
         }
-        #btn-reset-canvas:hover { background: #c0392b; transform: scale(1.05); }
 
         #active-basket { 
             position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); 
-            width: 110px; height: 70px; background: #8d6e63; border: 3px solid #5d4037; 
-            border-radius: 0 0 40px 40px; z-index: 100; cursor: grab; 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            width: 120px; height: 75px; background: var(--trunk-brown); border: 3px solid #3e2723; 
+            border-radius: 0 0 45px 45px; z-index: 100; cursor: grab; 
         }
         #active-basket.full { border-color: #ff9f1c; box-shadow: 0 0 20px #ff9f1c; cursor: pointer; }
+        #basket-count { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); background: #ff9f1c; color: white; padding: 2px 10px; border-radius: 8px; font-weight: bold; font-size: 0.85em; }
 
-        #basket-orange-pile { width: 100%; height: 100%; position: absolute; bottom: 5px; left: 0; pointer-events: none; }
-        .pile-orange { 
-            position: absolute; width: 40px; height: 40px; background-image: url('orange-fruit.png'); 
-            background-size: contain; background-repeat: no-repeat; 
-        }
-        
-        #basket-count { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); background: #ff9f1c; color: white; padding: 2px 10px; border-radius: 8px; font-weight: bold; font-size: 0.9em; white-space: nowrap; }
+        /* --- SISI KANAN --- */
+        #sidebar-right { width: 300px; display: flex; flex-direction: column; gap: 10px; }
+        #storage-area { flex: 1; background: white; border-radius: 12px; padding: 15px; border: 3px solid #55a630; display: flex; flex-direction: column; }
+        #storage-grid { flex-grow: 1; border: 2px dashed #c5e1a5; border-radius: 8px; margin: 10px 0; display: flex; flex-wrap: wrap; align-content: flex-start; gap: 5px; padding: 10px; overflow-y: auto; background: #fafafa; }
+        .stored-basket { width: 40px; height: 30px; background: #ffecb3; border: 2px solid #ff9f1c; border-radius: 0 0 10px 10px; display: flex; align-items: center; justify-content: center; font-size: 0.6em; font-weight: bold; }
 
-        /* --- SISI KANAN: GUDANG --- */
-        #sidebar-right { width: 320px; display: flex; flex-direction: column; gap: 10px; }
-        #storage-area { flex-grow: 1; background: white; border-radius: 12px; padding: 15px; border: 3px solid #55a630; display: flex; flex-direction: column; }
-        #storage-grid { flex-grow: 1; border: 2px dashed #c5e1a5; border-radius: 8px; margin-top: 5px; display: flex; flex-wrap: wrap; align-content: flex-start; gap: 8px; padding: 8px; overflow-y: auto; max-height: 180px;}
-        .stored-basket { width: 45px; height: 35px; background: #ffecb3; border: 2px solid #ff9f1c; border-radius: 0 0 15px 15px; display: flex; align-items: center; justify-content: center; font-size: 0.7em; font-weight: bold; color: #e67e22; }
+        #numeracy-logic { background: var(--soft-yellow); padding: 12px; border-radius: 12px; border: 2px solid #ff9f1c; }
+        .total-label { display: block; text-align: center; font-weight: bold; color: var(--primary-green); font-size: 0.8em; margin-bottom: 10px; }
+        .logic-row-h { display: flex; align-items: center; justify-content: space-between; }
+        .input-group { display: flex; flex-direction: column; align-items: center; }
+        .input-group label { font-size: 0.65em; font-weight: bold; color: #d35400; margin-top: 4px; }
+        .logic-input { width: 50px; padding: 8px; border: 2px solid #ff9f1c; border-radius: 8px; text-align: center; font-size: 1.1em; font-weight: bold; }
+        #user-result { font-size: 1.8em; color: var(--accent-orange); font-weight: bold; border-bottom: 3px solid var(--accent-orange); min-width: 50px; text-align: center; }
 
-        /* Numeracy Logic Box */
-        #numeracy-logic { background: var(--soft-yellow); padding: 15px; border-radius: 12px; border: 2px solid #ff9f1c; margin-top: 10px; position: relative; }
-        .total-label { display: block; text-align: center; font-weight: bold; color: var(--primary-green); font-size: 0.85em; margin-bottom: 10px; text-transform: uppercase; }
-        
-        .logic-row-h { display: flex; align-items: center; justify-content: space-between; gap: 5px; }
-        .input-group { display: flex; flex-direction: column; align-items: center; gap: 5px; }
-        .input-group label { font-size: 0.7em; font-weight: bold; color: #d35400; text-transform: uppercase; }
-        
-        .logic-input { width: 60px; padding: 10px; border: 2px solid #ff9f1c; border-radius: 10px; text-align: center; font-size: 1.2em; font-weight: bold; outline: none; }
-        .operator { font-size: 1.5em; font-weight: bold; color: var(--primary-green); margin-top: 15px; }
-        #user-result { font-size: 2em; color: var(--accent-orange); font-weight: bold; border-bottom: 3px solid var(--accent-orange); min-width: 60px; text-align: center; margin-top: 15px; }
-
-        /* --- RESPONSIVE --- */
+        /* Mobile */
         @media (max-width: 850px) {
             #main-wrapper { flex-direction: column; height: auto; }
             #sidebar-left, #sidebar-right { width: 100%; flex-direction: row; }
-            #sidebar-left .counter-card { flex: 1; }
-            #sim-container { height: 400px; order: -1; }
-            #sidebar-right { order: 2; }
+            #sim-container { height: 380px; order: -1; }
         }
     </style>
 </head>
@@ -130,9 +116,150 @@
     </div>
 
     <div id="title-container">
-        <img src="maskot-siyo.png" class="maskot" alt="Si Yo">
+        <img src="maskot-siyo.png" class="maskot" alt="Maskot">
         <div class="title-text">
             <h2>Si Yo: Panen & Simpan</h2>
-            <div class="instruction-box">
-                Arahkan keranjang, petik <span class="highlight">Jeruk</span> sampai 10, lalu simpan ke gudang! <br>
-                Buktikan kemampuan
+            <div class="instruction-box">Pindahkan keranjang ke bawah jeruk, petik sampai 10, lalu simpan ke gudang!</div>
+        </div>
+    </div>
+
+    <div id="main-wrapper">
+        <div id="sidebar-left">
+            <div class="counter-card">
+                <div style="font-size: 0.7em; font-weight: bold;">JERUK DIPETIK</div>
+                <span id="sum-actual">0</span>
+            </div>
+        </div>
+
+        <div id="sim-container">
+            <button id="btn-reset-canvas" onclick="initGame()">PETIK KEBUN BARU</button>
+            <div id="orchard-bg"></div>
+            <div id="orange-container"></div>
+            <div id="active-basket">
+                <div id="basket-orange-pile" style="position:relative; width:100%; height:100%;"></div>
+                <span id="basket-count">0 / 10</span>
+            </div>
+        </div>
+
+        <div id="sidebar-right">
+            <div id="storage-area">
+                <b style="color: var(--primary-green); font-size: 0.85em;">🏠 Gudang Penyimpanan</b>
+                <div id="storage-grid"></div>
+                
+                <div id="numeracy-logic">
+                    <span class="total-label">Total Jeruk di Gudang</span>
+                    <div class="logic-row-h">
+                        <div class="input-group">
+                            <input type="number" id="in-basket" class="logic-input" oninput="calculateUser()">
+                            <label>Keranjang</label>
+                        </div>
+                        <span style="font-weight:bold;">×</span>
+                        <div class="input-group">
+                            <input type="number" id="in-capacity" class="logic-input" oninput="calculateUser()">
+                            <label>Jeruk</label>
+                        </div>
+                        <span style="font-weight:bold;">=</span>
+                        <span id="user-result">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentInBasket = 0;
+        let totalHarvestedActual = 0;
+        const maxCapacity = 10;
+
+        const basket = document.getElementById('active-basket');
+        const simArea = document.getElementById('sim-container');
+        const orangeContainer = document.getElementById('orange-container');
+        const orangePile = document.getElementById('basket-orange-pile');
+
+        function initGame() {
+            orangeContainer.innerHTML = '';
+            orangePile.innerHTML = '';
+            currentInBasket = 0;
+            totalHarvestedActual = 0;
+            document.getElementById('storage-grid').innerHTML = '';
+            document.getElementById('in-basket').value = '';
+            document.getElementById('in-capacity').value = '';
+            document.getElementById('user-result').innerText = '0';
+            updateUI();
+
+            for(let i=0; i<40; i++) {
+                const orange = document.createElement('div');
+                orange.className = 'orange';
+                orange.style.left = (5 + Math.random() * 85) + '%';
+                orange.style.top = (20 + Math.random() * 55) + '%';
+                orange.onclick = function() { pickOrange(this); };
+                orangeContainer.appendChild(orange);
+            }
+        }
+
+        function pickOrange(el) {
+            if (currentInBasket >= maxCapacity) return;
+            const oRect = el.getBoundingClientRect();
+            const bRect = basket.getBoundingClientRect();
+
+            if (Math.abs((oRect.left + 20) - (bRect.left + 60)) < 60) {
+                el.style.transition = "top 0.4s ease-in, opacity 0.3s";
+                el.style.top = "85%";
+                el.style.opacity = "0";
+                setTimeout(() => {
+                    el.remove();
+                    const p = document.createElement('div');
+                    p.style.cssText = `position:absolute; width:30px; height:30px; background:orange; border-radius:50%; border:1px solid darkorange;`;
+                    p.style.left = (10 + Math.random() * 60) + "px";
+                    p.style.bottom = (Math.floor(currentInBasket/3) * 10) + "px";
+                    orangePile.appendChild(p);
+                    
+                    currentInBasket++;
+                    totalHarvestedActual++;
+                    updateUI();
+                }, 400);
+            }
+        }
+
+        function moveBasket(clientX) {
+            let rect = simArea.getBoundingClientRect();
+            let x = clientX - rect.left - 60;
+            if (x < 5) x = 5;
+            if (x > rect.width - 125) x = rect.width - 125;
+            basket.style.left = x + "px";
+            basket.style.transform = "none";
+        }
+
+        simArea.addEventListener('mousemove', (e) => { if(e.buttons === 1) moveBasket(e.clientX); });
+        simArea.addEventListener('touchmove', (e) => { e.preventDefault(); moveBasket(e.touches[0].clientX); }, {passive: false});
+
+        basket.onclick = () => {
+            if (currentInBasket === maxCapacity) {
+                const item = document.createElement('div');
+                item.className = 'stored-basket';
+                item.innerText = '🧺10';
+                document.getElementById('storage-grid').appendChild(item);
+                currentInBasket = 0;
+                orangePile.innerHTML = '';
+                basket.style.left = "50%";
+                basket.style.transform = "translateX(-50%)";
+                updateUI();
+            }
+        };
+
+        function calculateUser() {
+            const b = parseInt(document.getElementById('in-basket').value) || 0;
+            const c = parseInt(document.getElementById('in-capacity').value) || 0;
+            document.getElementById('user-result').innerText = b * c;
+        }
+
+        function updateUI() {
+            document.getElementById('basket-count').innerText = `${currentInBasket} / 10`;
+            basket.classList.toggle('full', currentInBasket === maxCapacity);
+            document.getElementById('sum-actual').innerText = totalHarvestedActual;
+        }
+
+        initGame();
+    </script>
+</body>
+</html>
